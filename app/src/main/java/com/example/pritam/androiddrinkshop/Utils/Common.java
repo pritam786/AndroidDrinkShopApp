@@ -1,5 +1,7 @@
 package com.example.pritam.androiddrinkshop.Utils;
 
+import com.example.pritam.androiddrinkshop.Database.DataSource.CartRepository;
+import com.example.pritam.androiddrinkshop.Database.Local.CartDatabase;
 import com.example.pritam.androiddrinkshop.Model.Category;
 import com.example.pritam.androiddrinkshop.Model.Drink;
 import com.example.pritam.androiddrinkshop.Model.User;
@@ -26,6 +28,11 @@ public class Common {
     public static int sizeOfCup = -1; // -1 : no choose (error) , 0 : M, 1 : L
     public static int sugar = -1;
     public static int ice = -1;
+
+
+    //Database
+    public static CartDatabase cartDatabase;
+    public static CartRepository cartRepository;
 
     public static IDrinkShopAPI getAPI() {
 
