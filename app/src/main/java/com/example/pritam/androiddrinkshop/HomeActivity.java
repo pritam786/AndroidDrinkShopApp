@@ -22,6 +22,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.pritam.androiddrinkshop.Adapter.CategoryAdapter;
 import com.example.pritam.androiddrinkshop.Model.Banner;
 import com.example.pritam.androiddrinkshop.Model.Category;
+import com.example.pritam.androiddrinkshop.Model.Drink;
 import com.example.pritam.androiddrinkshop.Retrofit.IDrinkShopAPI;
 import com.example.pritam.androiddrinkshop.Utils.Common;
 
@@ -92,6 +93,21 @@ public class HomeActivity extends AppCompatActivity
 
         //Get Menu
         getMenu();
+
+        //Save newest Topping List
+        getToppingList();
+    }
+
+    private void getToppingList() {
+        compositeDisposable.add(mService.getDrink(Common.TOPPING_MENU_ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Drink>>() {
+                    @Override
+                    public void accept(List<Drink> drinks) throws Exception {
+                        Common.toppingList = drinks;
+                    }
+                }));
     }
 
     private void getMenu() {
