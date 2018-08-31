@@ -240,7 +240,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkViewHolder> {
 
     }
 
-    private void showConfirmDialog(int position, final String number) {
+    private void showConfirmDialog(final int position, final String number) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View itemView = LayoutInflater.from(context)
@@ -297,6 +297,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkViewHolder> {
                     cartItem.sugar = Common.sugar;
                     cartItem.price = finalPrice;
                     cartItem.toppingExtras = txt_topping_extra.getText().toString();
+                    cartItem.link = drinkList.get(position).Link;
 
                     //Add to DB
                     Common.cartRepository.insertToCart(cartItem);
