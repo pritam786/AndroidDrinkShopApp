@@ -85,7 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             txt_sugar_ice = (TextView)itemView.findViewById(R.id.txt_sugar_ice);
             txt_price = (TextView)itemView.findViewById(R.id.txt_price);
             txt_sugar_ice = (TextView)itemView.findViewById(R.id.txt_sugar_ice);
-            txt_amount = (ElegantNumberButton) itemView.findViewById(R.id.txt_amount);
+            //txt_amount = (ElegantNumberButton) itemView.findViewById(R.id.txt_amount);
 
         }
     }
