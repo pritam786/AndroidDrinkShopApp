@@ -1,7 +1,8 @@
 package com.example.pritam.androiddrinkshop.Utils;
 
 import com.example.pritam.androiddrinkshop.Database.DataSource.CartRepository;
-import com.example.pritam.androiddrinkshop.Database.Local.CartDatabase;
+import com.example.pritam.androiddrinkshop.Database.DataSource.FavouriteRepository;
+import com.example.pritam.androiddrinkshop.Database.Local.PRITAMRoomDatabase;
 import com.example.pritam.androiddrinkshop.Model.Category;
 import com.example.pritam.androiddrinkshop.Model.Drink;
 import com.example.pritam.androiddrinkshop.Model.User;
@@ -31,8 +32,9 @@ public class Common {
 
 
     //Database
-    public static CartDatabase cartDatabase;
+    public static PRITAMRoomDatabase pritamRoomDatabase;
     public static CartRepository cartRepository;
+    public static FavouriteRepository favouriteRepository;
 
     public static IDrinkShopAPI getAPI() {
 

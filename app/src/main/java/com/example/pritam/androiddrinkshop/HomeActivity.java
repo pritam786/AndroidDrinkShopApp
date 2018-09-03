@@ -30,8 +30,11 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.pritam.androiddrinkshop.Adapter.CategoryAdapter;
 import com.example.pritam.androiddrinkshop.Database.DataSource.CartRepository;
+import com.example.pritam.androiddrinkshop.Database.DataSource.FavouriteRepository;
 import com.example.pritam.androiddrinkshop.Database.Local.CartDataSource;
-import com.example.pritam.androiddrinkshop.Database.Local.CartDatabase;
+//import com.example.pritam.androiddrinkshop.Database.Local.CartDatabase;
+import com.example.pritam.androiddrinkshop.Database.Local.FavouriteDataSource;
+import com.example.pritam.androiddrinkshop.Database.Local.PRITAMRoomDatabase;
 import com.example.pritam.androiddrinkshop.Model.Banner;
 import com.example.pritam.androiddrinkshop.Model.Category;
 import com.example.pritam.androiddrinkshop.Model.Drink;
@@ -217,8 +220,9 @@ public class HomeActivity extends AppCompatActivity
 
     private void initDB() {
 
-        Common.cartDatabase = CartDatabase.getInstance(this);
-        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.cartDatabase.cartDAO()));
+        Common.pritamRoomDatabase = PRITAMRoomDatabase.getInstance(this);
+        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.pritamRoomDatabase.cartDAO()));
+        Common.favouriteRepository = FavouriteRepository.getInstance(FavouriteDataSource.getInstance(Common.pritamRoomDatabase.favouriteDAO()));
 
 
     }
@@ -357,6 +361,10 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.cart_menu) {
             return true;
         }
+        else if (id == R.id.search_menu) {
+            startActivity(new Intent(HomeActivity.this,SearchActivity.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -400,6 +408,10 @@ public class HomeActivity extends AppCompatActivity
             builder.show();
 
 
+        }
+        else if (id == R.id.nav_favourite)
+        {
+            startActivity(new Intent(HomeActivity.this,FavouriteListActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

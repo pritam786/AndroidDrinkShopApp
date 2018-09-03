@@ -7,20 +7,12 @@
     android:layout_height="match_parent"
     android:padding="8dp"
     android:background="@drawable/bg"
-
     tools:context=".CartActivity">
 
-    <Button
-        android:id="@+id/btn_place_order"
-        android:text="PLACE ORDER"
-        android:layout_margin="8dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_cart"
+        android:id="@+id/recycler_fav"
         android:layout_above="@id/btn_place_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
