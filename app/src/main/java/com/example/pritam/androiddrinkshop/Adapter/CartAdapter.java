@@ -33,12 +33,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.cart_item_layout,parent,false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.cart_item_layout, parent, false);
         return new CartViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final CartViewHolder holder, final int position) {
 
         Picasso.with(context)
                 .load(cartList.get(position).link)
@@ -46,13 +46,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.txt_amount.setNumber(String.valueOf(cartList.get(position).amount));
         holder.txt_price.setText(new StringBuilder("$").append(cartList.get(position).price));
-        holder.txt_product_name.setText(cartList.get(position).name);
+        holder.txt_product_name.setText(new StringBuilder(cartList.get(position).name)
+                .append(" x")
+                .append(cartList.get(position).amount)
+                .append(cartList.get(position).size == 0 ? " Size M" : " Size L"));
+
+
         holder.txt_sugar_ice.setText(new StringBuilder("Sugar : ")
-        .append(cartList.get(position).sugar).append("%")
-        .append("\n")
+                .append(cartList.get(position).sugar).append("%")
+                .append("\n")
                 .append("Ice : ")
                 .append(cartList.get(position).ice)
                 .append("%").toString());
+
+        //Get Price of one cup with all position
+        final double priceOneCup = cartList.get(position).price / cartList.get(position).amount;
 
         //Auto save item when user change amount
         holder.txt_amount.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
@@ -60,8 +68,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Cart cart = cartList.get(position);
                 cart.amount = newValue;
+                cart.price = Math.round(priceOneCup * newValue);
 
                 Common.cartRepository.updateCart(cart);
+
+                holder.txt_price.setText(new StringBuilder("$").append(cartList.get(position).price));
             }
         });
 
@@ -72,42 +83,39 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartList.size();
     }
 
-    public class CartViewHolder extends RecyclerView.ViewHolder{
+    public void removeItem(int position) {
+        cartList.remove(position);
+        notifyItemRemoved(position);
+    }
 
-        ImageView img_product;
-        TextView txt_product_name, txt_sugar_ice, txt_price;
-        ElegantNumberButton txt_amount;
+    public void restoreItem(Cart item, int position) {
+        cartList.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public class CartViewHolder extends RecyclerView.ViewHolder {
 
         public RelativeLayout view_background;
         public LinearLayout view_foreground;
+        ImageView img_product;
+        TextView txt_product_name, txt_sugar_ice, txt_price;
+        ElegantNumberButton txt_amount;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
 
 
-            img_product = (ImageView)itemView.findViewById(R.id.img_product);
-            txt_amount = (ElegantNumberButton)itemView.findViewById(R.id.txt_amount);
-            txt_product_name = (TextView)itemView.findViewById(R.id.txt_product_name);
-            txt_sugar_ice = (TextView)itemView.findViewById(R.id.txt_sugar_ice);
-            txt_price = (TextView)itemView.findViewById(R.id.txt_price);
-            txt_sugar_ice = (TextView)itemView.findViewById(R.id.txt_sugar_ice);
+            img_product = (ImageView) itemView.findViewById(R.id.img_product);
+            txt_amount = (ElegantNumberButton) itemView.findViewById(R.id.txt_amount);
+            txt_product_name = (TextView) itemView.findViewById(R.id.txt_product_name);
+            txt_sugar_ice = (TextView) itemView.findViewById(R.id.txt_sugar_ice);
+            txt_price = (TextView) itemView.findViewById(R.id.txt_price);
+            txt_sugar_ice = (TextView) itemView.findViewById(R.id.txt_sugar_ice);
             //txt_amount = (ElegantNumberButton) itemView.findViewById(R.id.txt_amount);
 
-            view_background = (RelativeLayout)itemView.findViewById(R.id.view_background);
-            view_foreground = (LinearLayout)itemView.findViewById(R.id.view_foreground);
+            view_background = (RelativeLayout) itemView.findViewById(R.id.view_background);
+            view_foreground = (LinearLayout) itemView.findViewById(R.id.view_foreground);
 
         }
-    }
-
-    public void removeItem(int position)
-    {
-       cartList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void restoreItem(Cart item, int position)
-    {
-        cartList.add(position,item);
-        notifyItemInserted(position);
     }
 }
